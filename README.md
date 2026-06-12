@@ -16,7 +16,7 @@ Shortcut reliance is quantified with a **three-way test**: marker-consistent, cl
 
 ## Key findings
 
-- In-distribution (marker present): **0.999 AUC**, the model learns the task.
+- In-distribution (marker present): **0.999 AUC** under the marker-consistent condition.
 - Clean images (marker removed): recall collapses **0.96 to 0.07**, F1 drops to 0.13.
 - Marker-flipped: AUC inverts to **0.19** (below chance).
 - Attention attribution and activation patching converge on a single early head, **layer 1, head 7**, as the dominant marker carrier.
@@ -56,16 +56,18 @@ Accept the competition rules on Kaggle, then download and unzip into `rsna/`:
 kaggle competitions download -c rsna-pneumonia-detection-challenge
 ```
 
-Expected contents of `rsna/`:
+If you download the raw dataset locally, the expected `rsna/` structure is:
 
 ```
 rsna/
-├── stage_2_train_images/           # *.dcm
-├── stage_2_test_images/            # *.dcm
+├── stage_2_train_images/           # *.dcm, not included in this repository
+├── stage_2_test_images/            # *.dcm, not included in this repository
 ├── stage_2_train_labels.csv
 ├── stage_2_detailed_class_info.csv
 └── stage_2_sample_submission.csv
 ```
+
+The raw DICOM folders are excluded from this repository and are not required for reviewing the submitted code and results.
 
 ## Setup
 
@@ -99,6 +101,8 @@ Analysis only, reusing a saved checkpoint:
 ```bash
 python src/cxr_interp.py --data_dir ./rsna --out_dir ./out/out_full --skip_train
 ```
+
+Analysis-only mode requires a local `vit_cxr.pt` checkpoint in the chosen output directory. The checkpoint is not included in this repository.
 
 On HPC, submit the SLURM job instead (activates the `cxr` env and runs the full pipeline on one GPU):
 
@@ -135,7 +139,7 @@ Written to `--out_dir` (for the full run, `out/out_full/`):
 - `fig_attention_attribution.png`, `fig_patching_causal.png` — per-head attention and causal effect
 - `fig_ablation_recovery.png` — clean accuracy before/after ablation
 - `results.json` — all metrics across the three conditions
-- `vit_cxr.pt` — best-validation-AUC checkpoint
+- `vit_cxr.pt` — best-validation-AUC checkpoint, generated locally and not tracked in git
 
 ## Results
 
@@ -195,4 +199,4 @@ CSC 787, AI in Medical Imaging Informatics, Summer 2026.
 
 ## License
 
-Released for academic use. Add a `LICENSE` file (for example, MIT) if you want to set explicit terms.
+Released for academic/course use.
