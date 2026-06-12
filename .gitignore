@@ -1,0 +1,10 @@
+rsna/stage_2_train_images/
+rsna/stage_2_test_images/
+data/
+logs/
+*.pt
+.idea/
+*.iml
+.DS_Store
+__pycache__/
+*.pyc
